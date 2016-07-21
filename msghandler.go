@@ -74,8 +74,8 @@ func (p *Peer) outgoingMessageHandler() {
 //
 func (p *Peer) fPositiveHandler() {
 	var fpAccumulator int32
-	for {
-		fpAccumulator += <-p.fPositives // blocks here
+	for newFps := range p.fPositives {
+		fpAccumulator += newFps
 		if fpAccumulator > 7 {
 			p.UpdateFilterAndSend()
 			// clear the channel
