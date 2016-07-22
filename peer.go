@@ -1,9 +1,9 @@
 package spvwallet
 
 import (
-	"net"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/wire"
+	"net"
 	"strings"
 )
 
@@ -14,7 +14,6 @@ const (
 	CONNECTED  = 1
 	DEAD       = 2
 )
-
 
 // NewPeer creates a a new *Peer and begins communicating with it.
 func NewPeer(remoteNode string, blockchain *Blockchain, inTs *TxStore, params *chaincfg.Params, userAgent string, diconnectChan chan string, downloadPeer bool) (*Peer, error) {
@@ -27,22 +26,22 @@ func NewPeer(remoteNode string, blockchain *Blockchain, inTs *TxStore, params *c
 	ip := net.ParseIP(remoteNode)
 	if ip.To4() == nil {
 		li := strings.LastIndex(remoteNode, ":")
-		remoteNode = "[" + remoteNode[:li] +"]" + remoteNode[li: len(remoteNode)]
+		remoteNode = "[" + remoteNode[:li] + "]" + remoteNode[li:len(remoteNode)]
 	}
 
 	// create new peer
 	p := &Peer{
 		TS: inTs, // copy pointer of txstore into peer
 
-		blockchain: blockchain,
-		remoteAddress: remoteNode,
+		blockchain:     blockchain,
+		remoteAddress:  remoteNode,
 		disconnectChan: diconnectChan,
-		downloadPeer: downloadPeer,
-		OKTxids: make(map[wire.ShaHash]int32),
+		downloadPeer:   downloadPeer,
+		OKTxids:        make(map[wire.ShaHash]int32),
 
 		// assign version bits for local node
 		localVersion: VERSION,
-		userAgent: userAgent,
+		userAgent:    userAgent,
 	}
 
 	// open TCP connection
@@ -137,7 +136,7 @@ func (p *Peer) start() {
 
 	// create queues for blocks and false positives
 	p.blockQueue = make(chan HashAndHeight, 32)
-	p.fPositives = make(chan int32, 4000)       // a block full, approx
+	p.fPositives = make(chan int32, 4000) // a block full, approx
 	go p.fPositiveHandler()
 
 	// if this peer is a downloadPeer ask it for headers
