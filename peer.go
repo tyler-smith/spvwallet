@@ -4,7 +4,6 @@ import (
 	"net"
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/wire"
-	"fmt"
 	"strings"
 )
 
@@ -128,12 +127,6 @@ func (p *Peer) run() {
 
 	if p.downloadPeer {
 		log.Infof("Set %s as download peer", p.con.RemoteAddr().String())
-		err := p.AskForHeaders()
-		if err != nil {
-			fmt.Println(err)
-		}
+		p.AskForHeaders()
 	}
 }
-
-
-

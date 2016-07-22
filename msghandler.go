@@ -104,10 +104,7 @@ func (p *Peer) HeaderHandler(m *wire.MsgHeaders) {
 	}
 	// more to get? if so, ask for them and return
 	if moar {
-		err = p.AskForHeaders()
-		if err != nil {
-			log.Errorf("AskForHeaders error: %s", err.Error())
-		}
+		p.AskForHeaders()
 		return
 	}
 
