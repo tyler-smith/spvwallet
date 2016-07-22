@@ -11,6 +11,8 @@ const (
 	VERSION = 70012
 )
 
+// Peer represents a remote Bitcoin node and provides methods for interacting
+// with them via the Bitcoin protocol
 type Peer struct {
 	con net.Conn // the (probably tcp) connection to the node
 
