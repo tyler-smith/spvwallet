@@ -93,7 +93,7 @@ type State interface {
 type ChainState int
 
 const (
-	SYNCING = 0
+	SYNCING ChainState = 0
 	WAITING = 1
 	REORG   = 2
 )
