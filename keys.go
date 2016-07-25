@@ -8,8 +8,8 @@ import (
 type KeyPurpose int
 
 const (
-	EXTERNAL = 0
-	INTERNAL = 1
+	EXTERNAL KeyPurpose = 0
+	INTERNAL            = 1
 )
 
 const LOOKAHEADWINDOW = 100
