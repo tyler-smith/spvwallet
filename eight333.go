@@ -53,6 +53,9 @@ type Peer struct {
 	// known good txids and their heights
 	OKTxids map[wire.ShaHash]int32
 	OKMutex sync.Mutex
+
+	// Notifies goroutines to exit
+	shutdownCh chan (struct{})
 }
 
 // AskForTx requests a tx we heard about from an inv message.
