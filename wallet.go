@@ -2,16 +2,17 @@ package spvwallet
 
 import (
 	"bytes"
-	"github.com/btcsuite/btcd/chaincfg"
-	btc "github.com/btcsuite/btcutil"
-	hd "github.com/btcsuite/btcutil/hdkeychain"
-	"github.com/op/go-logging"
-	b39 "github.com/tyler-smith/go-bip39"
 	"io/ioutil"
 	"math/rand"
 	"net"
 	"os"
 	"sync"
+
+	"github.com/btcsuite/btcd/chaincfg"
+	btc "github.com/btcsuite/btcutil"
+	hd "github.com/btcsuite/btcutil/hdkeychain"
+	"github.com/op/go-logging"
+	b39 "github.com/tyler-smith/go-bip39"
 )
 
 // SPVWallet implements a wallet with Bitcoin-style simplified payment verification
@@ -124,7 +125,9 @@ func (w *SPVWallet) connectToPeers() {
 				// Set this temporarily to avoid a race condition which sets two download peers
 				w.downloadPeer = &Peer{}
 			}
-			peer, err := NewPeer(addr, w.blockchain, w.state, w.params, w.userAgent, w.diconnectChan, dp)
+
+			peer := NewPeer(addr, w.blockchain, w.state, w.params, w.userAgent, w.diconnectChan, dp)
+			err := peer.start()
 			if err != nil {
 				if dp {
 					// Unset as download peer on failure
@@ -132,6 +135,7 @@ func (w *SPVWallet) connectToPeers() {
 				}
 				continue
 			}
+
 			if dp {
 				w.downloadPeer = peer
 			}
@@ -149,8 +153,7 @@ func (w *SPVWallet) onPeerDisconnect() {
 		w.pgMutex.Lock()
 		p, ok := w.peerGroup[addr]
 		if ok {
-			p.con.Close()
-			p.connectionState = DEAD
+			p.stop()
 			if p.downloadPeer {
 				w.downloadPeer = nil
 			}
