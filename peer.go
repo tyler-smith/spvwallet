@@ -1,10 +1,11 @@
 package spvwallet
 
 import (
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcd/wire"
 	"net"
 	"strings"
+
+	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btcsuite/btcd/wire"
 )
 
 type ConnectionState int
@@ -118,7 +119,6 @@ func (p *Peer) start() {
 	p.WBytes += uint64(n)
 
 	// begin read/write loops
-	p.inMsgQueue = make(chan wire.Message)
 	go p.incomingMessageHandler()
 	p.outMsgQueue = make(chan wire.Message)
 	go p.outgoingMessageHandler()

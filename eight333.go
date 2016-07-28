@@ -2,9 +2,10 @@ package spvwallet
 
 import (
 	"fmt"
-	"github.com/btcsuite/btcd/wire"
 	"net"
 	"sync"
+
+	"github.com/btcsuite/btcd/wire"
 )
 
 const (
@@ -30,8 +31,6 @@ type Peer struct {
 	localVersion  uint32 // version we report
 	remoteVersion uint32 // version remote node
 
-	// what's the point of the input queue? remove? leave for now...
-	inMsgQueue  chan wire.Message // Messages coming in from remote node
 	outMsgQueue chan wire.Message // Messages going out to remote node
 
 	WBytes uint64 // total bytes written
