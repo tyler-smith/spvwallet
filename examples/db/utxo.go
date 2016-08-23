@@ -2,13 +2,13 @@ package db
 
 import (
 	"database/sql"
-	"sync"
-	"github.com/OpenBazaar/spvwallet"
-	"strconv"
 	"encoding/hex"
-	"strings"
-	"github.com/btcsuite/btcd/wire"
+	"github.com/OpenBazaar/spvwallet"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
+	"github.com/btcsuite/btcd/wire"
+	"strconv"
+	"strings"
+	"sync"
 )
 
 type UtxoDB struct {
@@ -71,9 +71,9 @@ func (u *UtxoDB) GetAll() ([]spvwallet.Utxo, error) {
 			continue
 		}
 		ret = append(ret, spvwallet.Utxo{
-			Op: *wire.NewOutPoint(shaHash, uint32(index)),
-			AtHeight: int32(height),
-			Value: int64(value),
+			Op:           *wire.NewOutPoint(shaHash, uint32(index)),
+			AtHeight:     int32(height),
+			Value:        int64(value),
 			ScriptPubkey: scriptBytes,
 		})
 	}
